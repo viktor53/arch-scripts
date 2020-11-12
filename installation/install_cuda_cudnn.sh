@@ -11,10 +11,11 @@
 ##################################################################
 
 # CONSTANTS
+USER_FOLDER=/home/viktor
 CUDA_VERSION=10.1.243-2-x86_64
 CUDNN_VERSION=7.6.5.32-4-x86_64
-DOWNLOAD_FOLDER=~/Downloads
-FILE_FOR_EXPORTING=~/.bashrc 
+DOWNLOAD_FOLDER=${USER_FOLDER}/Downloads
+FILE_FOR_EXPORTING=${USER_FOLDER}/.bashrc 
 
 echo "It is going to install cuda ${CUDA_VERSION} and cudnn ${CUDNN_VERSION} that is compatible with tensorflow 2.3.1. (It requires to run it with sudo)"
 
@@ -33,6 +34,10 @@ if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
 	echo "Running: pacman -U cudnn-${CUDNN_VERSION}.pkg.tar.zst"
 	pacman -U ${DOWNLOAD_FOLDER}/cudnn-${CUDNN_VERSION}.pkg.tar.zst
 	
+	cp /usr/include/cudnn*.h /opt/cuda/include
+	cp /usr/lib/libcudnn* /opt/cuda/lib64
+	chmod a+r /opt/cuda/include/cudnn*.h /opt/cuda/lib64/libcudnn*
+
 	echo "Installation is completed."
 
 	read -p "Do you want to export required paths (PATH, CPATH, LD_LIBRARY_PATH)? (y/n): " answer
